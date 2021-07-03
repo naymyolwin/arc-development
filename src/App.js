@@ -12,21 +12,17 @@ function App() {
         <Header />
         <Switch>
           <Route exact path="/" component={() => <div>Home</div>} />
-          <Route exact path="/services" component={() => <div>Services</div>} />
+          <Route path="/services" component={() => <div>Services</div>} />
           <Route
-            exact
             path="/customsoftware"
             component={() => <div>Custom Software</div>}
           />
-          <Route exact path="/websites" component={() => <div>Websites</div>} />
-          <Route
-            exact
-            path="/revolution"
-            component={() => <div>Revolution</div>}
-          />
-          <Route exact path="/about" component={() => <div>About</div>} />
-          <Route exact path="/contact" component={() => <div>Contact</div>} />
-          <Route exact path="/estimate" component={() => <div>Estimate</div>} />
+          <Route path="/mobileapps" component={() => <div>Mobile Apps</div>} />
+          <Route path="/websites" component={() => <div>Websites</div>} />
+          <Route path="/revolution" component={() => <div>Revolution</div>} />
+          <Route path="/about" component={() => <div>About</div>} />
+          <Route path="/contact" component={() => <div>Contact</div>} />
+          <Route path="/estimate" component={() => <div>Estimate</div>} />
         </Switch>
       </Router>
     </ThemeProvider>
