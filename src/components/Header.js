@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "50px",
     marginRight: "25px",
     height: "45px",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+    },
   },
   menu: {
     backgroundColor: theme.palette.common.blue,
@@ -136,7 +139,7 @@ const Header = (props) => {
       selectedIndex: 1,
     },
     {
-      name: "Mobile App Development",
+      name: "IOS/Android App Development",
       link: "/mobileapps",
       activeIndex: 1,
       selectedIndex: 2,
