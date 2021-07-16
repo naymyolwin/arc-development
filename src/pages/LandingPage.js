@@ -442,7 +442,7 @@ const LandingPage = (props) => {
               <Typography variant="subtitle2">
                 Say Hello!{" "}
                 <span
-                  role="image"
+                  role="img"
                   aria-label="waving hand"
                   style={{ color: "transparent", textShadow: "0 0 0 white" }}
                 >
