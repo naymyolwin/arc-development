@@ -14,6 +14,7 @@ import swiss from "../assets/swissKnife.svg";
 import access from "../assets/extendAccess.svg";
 import engagement from "../assets/increaseEngagement.svg";
 import integrationAnimation from "../animations/integrationAnimation/data.json";
+import CallToAction from "./CallToAction";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -126,22 +127,35 @@ const MobileApps = (props) => {
       <Grid
         item
         container
-        direction={matchesMD ? "column" : "row"}
+        direction={matchesSM ? "column" : "row"}
+        style={{ marginTop: "15em", marginBottom: "15em" }}
         className={classes.rowContainer}
       >
-        <Grid item container direciton="column" md>
+        <Grid item container direction="column" md>
           <Grid item>
-            <Typography variant="h4" gutterBottom>
+            <Typography
+              align={matchesSM ? "center" : undefined}
+              variant="h4"
+              gutterBottom
+            >
               Integration
             </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1" paragraph>
+            <Typography
+              variant="body1"
+              paragraph
+              align={matchesSM ? "center" : undefined}
+            >
               Our technology enables an innate interconnection between web and
               mobile applications, putting everything you need right in one
               convenient place.
             </Typography>
-            <Typography variant="body1" paragraph>
+            <Typography
+              variant="body1"
+              paragraph
+              align={matchesSM ? "center" : undefined}
+            >
               This allows you to extend your reach, reinvent interactions and
               develop a stronger relationship with your users than ever before.
             </Typography>
@@ -150,18 +164,30 @@ const MobileApps = (props) => {
         <Grid item md>
           <Lottie options={defaultOptions} style={{ maxWidth: "20em" }} />
         </Grid>
-        <Grid item container direciton="column" md>
+        <Grid item container direction="column" md>
           <Grid item>
-            <Typography variant="h4" gutterBottom align="right">
+            <Typography
+              variant="h4"
+              gutterBottom
+              align={matchesSM ? "center" : "right"}
+            >
               Simultaneous Platform Support
             </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1" paragraph align="right">
+            <Typography
+              variant="body1"
+              paragraph
+              align={matchesSM ? "center" : "right"}
+            >
               Our cutting-edge development process allows us to create apps for
               iPhone, Android, and tablets - all at the same time.
             </Typography>
-            <Typography variant="body1" paragraph align="right">
+            <Typography
+              variant="body1"
+              paragraph
+              align={matchesSM ? "center" : "right"}
+            >
               This significantly reduces costs and creates a more unified brand
               experience across all devices.
             </Typography>
@@ -173,6 +199,7 @@ const MobileApps = (props) => {
         container
         direction={matchesMD ? "column" : "row"}
         className={classes.rowContainer}
+        style={{ marginBottom: "15em" }}
       >
         <Grid item container direction="column" md alignItems="center">
           <Grid item>
@@ -184,7 +211,17 @@ const MobileApps = (props) => {
             <img src={swiss} alt="swiss army knife" />
           </Grid>
         </Grid>
-        <Grid item container direction="column" md alignItems="center">
+        <Grid
+          item
+          container
+          direction="column"
+          md
+          alignItems="center"
+          style={{
+            marginTop: matchesMD ? "10em" : 0,
+            marginBottom: matchesMD ? "10em" : 0,
+          }}
+        >
           <Grid item>
             <Typography variant="h4" gutterBottom align="center">
               Extend Access
@@ -194,7 +231,7 @@ const MobileApps = (props) => {
             <img
               src={access}
               alt="tear-one-off sign"
-              style={{ maxWidth: "28em" }}
+              style={{ maxWidth: matchesXS ? "20em" : "28em" }}
             />
           </Grid>
         </Grid>
@@ -208,6 +245,9 @@ const MobileApps = (props) => {
             <img src={engagement} alt="app with notification" />
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item>
+        <CallToAction setValue={setValue} />
       </Grid>
     </Grid>
   );
