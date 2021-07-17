@@ -9,6 +9,7 @@ import LandingPage from "./pages/LandingPage";
 import Services from "./pages/Services";
 import CustomSoftware from "./components/CustomSoftware";
 import MobileApps from "./components/MobileApps";
+import Website from "./components/Website";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -65,7 +66,16 @@ function App() {
               />
             )}
           />
-          <Route path="/websites" component={() => <div>Websites</div>} />
+          <Route
+            path="/websites"
+            render={(props) => (
+              <Website
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )}
+          />
           <Route path="/revolution" component={() => <div>Revolution</div>} />
           <Route path="/about" component={() => <div>About</div>} />
           <Route path="/contact" component={() => <div>Contact</div>} />
