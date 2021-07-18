@@ -10,6 +10,7 @@ import Services from "./pages/Services";
 import CustomSoftware from "./components/CustomSoftware";
 import MobileApps from "./components/MobileApps";
 import Website from "./components/Website";
+import Revolution from "./components/Revolution";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -76,7 +77,16 @@ function App() {
               />
             )}
           />
-          <Route path="/revolution" component={() => <div>Revolution</div>} />
+          <Route
+            path="/revolution"
+            render={(props) => (
+              <Revolution
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )}
+          />
           <Route path="/about" component={() => <div>About</div>} />
           <Route path="/contact" component={() => <div>Contact</div>} />
           <Route path="/estimate" component={() => <div>Estimate</div>} />
