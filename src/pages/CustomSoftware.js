@@ -19,7 +19,7 @@ import automationAnimation from "../animations/automationAnimation/data.json";
 import uxAnimation from "../animations/uxAnimation/data";
 import roots from "../assets/root.svg";
 
-import CallToAction from "./CallToAction";
+import CallToAction from "../components/CallToAction";
 
 const useStyles = makeStyles((theme) => ({
   heading: {

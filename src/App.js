@@ -7,10 +7,11 @@ import theme from "./ui/Theme";
 import Footer from "./components/Footer";
 import LandingPage from "./pages/LandingPage";
 import Services from "./pages/Services";
-import CustomSoftware from "./components/CustomSoftware";
-import MobileApps from "./components/MobileApps";
-import Website from "./components/Website";
-import Revolution from "./components/Revolution";
+import CustomSoftware from "./pages/CustomSoftware";
+import MobileApps from "./pages/MobileApps";
+import Website from "./pages/Website";
+import Revolution from "./pages/Revolution";
+import About from "./pages/About";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -87,7 +88,16 @@ function App() {
               />
             )}
           />
-          <Route path="/about" component={() => <div>About</div>} />
+          <Route
+            path="/about"
+            render={(props) => (
+              <About
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )}
+          />
           <Route path="/contact" component={() => <div>Contact</div>} />
           <Route path="/estimate" component={() => <div>Estimate</div>} />
         </Switch>

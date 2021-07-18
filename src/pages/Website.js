@@ -13,7 +13,7 @@ import analytics from "../assets/analytics.svg";
 import seo from "../assets/seo.svg";
 import outreach from "../assets/outreach.svg";
 import ecommerce from "../assets/ecommerce.svg";
-import CallToAction from "./CallToAction";
+import CallToAction from "../components/CallToAction";
 
 const useStyles = makeStyles((theme) => ({
   heading: {

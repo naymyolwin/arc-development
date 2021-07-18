@@ -14,7 +14,7 @@ import swiss from "../assets/swissKnife.svg";
 import access from "../assets/extendAccess.svg";
 import engagement from "../assets/increaseEngagement.svg";
 import integrationAnimation from "../animations/integrationAnimation/data.json";
-import CallToAction from "./CallToAction";
+import CallToAction from "../components/CallToAction";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
