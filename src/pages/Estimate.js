@@ -334,7 +334,6 @@ const Estimate = () => {
 
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
-  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
   const [questions, setQuestions] = useState(defaultQuestions);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -353,6 +352,13 @@ const Estimate = () => {
   const [customFeatures, setCustomFeatures] = useState("");
   const [category, setCategory] = useState("");
   const [user, setUser] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    backgroundColor: "",
+  });
 
   const defaultOptions = {
     loop: true,
@@ -578,6 +584,70 @@ const Estimate = () => {
     }
   };
 
+  const sendEstimate = () => {
+    setLoading(true);
+    axios
+      .get(
+        "https://us-central1-arc-development-5e093.cloudfunctions.net/sendMail",
+        {
+          params: {
+            name: name,
+            email: email,
+            phone: phone,
+            message: message,
+            total: total,
+            category: category,
+            service: service,
+            platforms: platforms,
+            features: features,
+            customFeatures: customFeatures,
+            user: user,
+          },
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+        setAlert({
+          open: true,
+          message: "Estimate placed successfully",
+          backgroundColor: "#4BB543",
+        });
+        setDialogOpen(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+        setAlert({
+          open: true,
+          message: "something went worng, please try again",
+          backgroundColor: "#FF3232",
+        });
+      });
+  };
+
+  const estimateDisabled = () => {
+    let disabled = true;
+    const emptySelections = questions
+      .map((question) => question.options.filter((option) => option.selected))
+      .filter((question) => question.length === 0);
+
+    if (questions.length === 2) {
+      if (emptySelections.length === 1) {
+        disabled = false;
+      }
+    } else if (questions.length === 1) {
+      disabled = true;
+    } else if (
+      emptySelections.length < 3 &&
+      questions[questions.length - 1].options.filter(
+        (option) => option.selected
+      ).length > 0
+    ) {
+      disabled = false;
+    }
+    return disabled;
+  };
+
   const softwareSelection = (
     <Grid container direction="column">
       <Grid
@@ -758,8 +828,9 @@ const Estimate = () => {
                 </Typography>
               </Grid>
               <Grid item container>
-                {question.options.map((option) => (
+                {question.options.map((option, index) => (
                   <Grid
+                    key={index}
                     item
                     container
                     direction="column"
@@ -846,6 +917,7 @@ const Estimate = () => {
               getCustomFeatures();
               getCategory();
             }}
+            disabled={estimateDisabled()}
           >
             Get Estimate
           </Button>
@@ -921,6 +993,7 @@ const Estimate = () => {
                   multiline
                   rows={10}
                   fullWidth
+                  placeholder="Tell us more about your project"
                 />
               </Grid>
               <Grid item>
@@ -928,6 +1001,7 @@ const Estimate = () => {
                   variant="body1"
                   paragraph
                   align={matchesSM ? "center" : undefined}
+                  style={{ lineHeight: 1.25 }}
                 >
                   We can creat this digital solution for an exitmated{" "}
                   <span className={classes.specialText}>
@@ -960,13 +1034,29 @@ const Estimate = () => {
               </Hidden>
 
               <Grid item>
-                <Button variant="contained" className={classes.estimateButton}>
-                  Place Request
-                  <img
-                    src={send}
-                    alt="paper airplane"
-                    style={{ marginLeft: "0.5em" }}
-                  />
+                <Button
+                  variant="contained"
+                  className={classes.estimateButton}
+                  onClick={sendEstimate}
+                  disabled={
+                    name.length === 0 ||
+                    message.length === 0 ||
+                    phoneHelper.length !== 0 ||
+                    emailHelper.length !== 0
+                  }
+                >
+                  {loading ? (
+                    <CircularProgress />
+                  ) : (
+                    <React.Fragment>
+                      Place Request
+                      <img
+                        src={send}
+                        alt="paper airplane"
+                        style={{ marginLeft: "0.5em" }}
+                      />
+                    </React.Fragment>
+                  )}
                 </Button>
               </Grid>
               <Hidden mdUp>
@@ -984,6 +1074,18 @@ const Estimate = () => {
           </Grid>
         </DialogContent>
       </Dialog>
+      <Snackbar
+        open={alert.open}
+        message={alert.message}
+        ContentProps={{
+          style: {
+            backgroundColor: alert.backgroundColor,
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => setAlert({ ...alert, open: false })}
+        autoHideDuration={4000}
+      />
     </Grid>
   );
 };

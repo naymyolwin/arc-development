@@ -299,6 +299,7 @@ const Contact = (props) => {
                 multiline
                 rows={10}
                 fullWidth
+                placeholder="Tell us more about your project"
               />
             </Grid>
             <Grid item container justify="center" style={{ marginTop: "2em" }}>
