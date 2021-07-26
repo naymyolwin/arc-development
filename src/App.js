@@ -13,6 +13,7 @@ import Website from "./pages/Website";
 import Revolution from "./pages/Revolution";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Estimate from './pages/Estimate';
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -109,7 +110,13 @@ function App() {
               />
             )}
           />
-          <Route path="/estimate" component={() => <div>Estimate</div>} />
+          <Route path="/estimate" render={(props) => (
+              <Estimate
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )} />
         </Switch>
         <Footer setValue={setValue} setSelectedIndex={setSelectedIndex} />
       </Router>

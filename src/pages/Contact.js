@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -7,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Snackbar from "@material-ui/core/Snackbar";
 import { Link } from "react-router-dom";
 
 import background from "../assets/background.jpg";
@@ -92,6 +95,14 @@ const Contact = (props) => {
   const [emailHelper, setEmailHelper] = useState("");
   const [phoneHelper, setPhoneHelper] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    backgroundColor: "",
+  });
+
   const onChange = (event) => {
     let valid;
     switch (event.target.id) {
@@ -122,6 +133,51 @@ const Contact = (props) => {
         break;
     }
   };
+
+  const onConfirm = () => {
+    setLoading(true);
+
+    axios
+      .get(
+        "https://us-central1-arc-development-5e093.cloudfunctions.net/sendMail",
+        {
+          params: {
+            name: name,
+            email: email,
+            phone: phone,
+            message: message,
+          },
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+        setOpen(false);
+        setName("");
+        setEmail("");
+        setMessage("");
+        setPhone("");
+        setAlert({
+          open: true,
+          message: "message sent successfully",
+          backgroundColor: "#4BB543",
+        });
+      })
+      .catch((err) => {
+        setLoading(false);
+        setAlert({
+          open: true,
+          message: "something went worng, please try again",
+          backgroundColor: "#FF3232",
+        });
+      });
+  };
+
+  const buttonContent = (
+    <React.Fragment>
+      Send message
+      <img src={airplane} alt="paper airplane" style={{ marginLeft: "1em" }} />
+    </React.Fragment>
+  );
 
   return (
     <Grid item container direction="row">
@@ -200,12 +256,7 @@ const Contact = (props) => {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid
-              item
-              container
-              direction="column"
-              style={{ maxWidth: "20em" }}
-            >
+            <Grid item container direction="column" style={{ width: "20em" }}>
               <Grid item style={{ marginBottom: "0.5em" }}>
                 <TextField
                   label="Name"
@@ -238,7 +289,7 @@ const Contact = (props) => {
                 />
               </Grid>
             </Grid>
-            <Grid item style={{ maxWidth: "20em" }}>
+            <Grid item style={{ width: "20em" }}>
               <TextField
                 InputProps={{ disableUnderline: true }}
                 className={classes.message}
@@ -262,12 +313,7 @@ const Contact = (props) => {
                 }
                 onClick={() => setOpen(true)}
               >
-                Send message
-                <img
-                  src={airplane}
-                  alt="paper airplane"
-                  style={{ marginLeft: "1em" }}
-                />
+                {buttonContent}
               </Button>
             </Grid>
           </Grid>
@@ -286,17 +332,18 @@ const Contact = (props) => {
               : matchesSM
               ? "5em"
               : matchesMD
-              ? "10em"
-              : "20em",
+              ? "15em"
+              : "25em",
             paddingRight: matchesXS
               ? 0
               : matchesSM
               ? "5em"
               : matchesMD
-              ? "10em"
-              : "20em",
+              ? "15em"
+              : "25em",
           },
         }}
+        fullScreen={matchesSM}
       >
         <DialogContent>
           <Grid container direction="column">
@@ -338,7 +385,7 @@ const Contact = (props) => {
               />
             </Grid>
 
-            <Grid item style={{ maxWidth: "20em" }}>
+            <Grid item style={{ width: matchesSM ? "100%" : "20em" }}>
               <TextField
                 InputProps={{ disableUnderline: true }}
                 className={classes.message}
@@ -377,19 +424,28 @@ const Contact = (props) => {
                   phoneHelper.length !== 0 ||
                   emailHelper.length !== 0
                 }
-                onClick={() => setOpen(true)}
+                onClick={onConfirm}
               >
-                Send message
-                <img
-                  src={airplane}
-                  alt="paper airplane"
-                  style={{ marginLeft: "1em" }}
-                />
+                {loading ? <CircularProgress size={30} /> : buttonContent}
               </Button>
             </Grid>
           </Grid>
         </DialogContent>
       </Dialog>
+
+      <Snackbar
+        open={alert.open}
+        message={alert.message}
+        ContentProps={{
+          style: {
+            backgroundColor: alert.backgroundColor,
+          },
+        }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => setAlert({ ...alert, open: false })}
+        autoHideDuration={4000}
+      />
+
       <Grid
         item
         container
